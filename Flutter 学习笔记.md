@@ -9,5 +9,5 @@ Android 界面最小单元 View，Flutter 使用 Widget，Widget 两个状态：
 
 ## 如何更新 Widget
 
-关键在于创建一个 StatefulWidget，以及属于整个 Widget 的 State<StatefulWidget>
+关键在于创建一个 StatefulWidget，以及属于这个 Widget 的 State<StatefulWidget>，
 
