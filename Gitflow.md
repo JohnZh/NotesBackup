@@ -1,5 +1,17 @@
 # Git flow
 
+## 分支命名规范
+
+- 稳定分支：master
+- 开发分支：dev
+- 功能分支：f/$featureName or feature/$featureName
+- 发布分支：release/$version
+- 快修分支：hotFix/$version
+- 重构分支：refactor/$featureName
+- bug 分支： bugFix/$bugName*（需要花费大量时间，单独切分支，不影响其他人开发）*
+
+
+
 ## 分支定义
 
 - 稳定分支 master: 该分支永远是最近的一个稳定版本
@@ -14,7 +26,7 @@
 
 ![流程图](./gitflow.jpg)
 
-### 要点
+## 要点
 
 - 当你要开发新功能的时候，从 dev 创建一个新的 feature 分支，此后一直在该分支上进行开发，直到完成
 - 当项目需要进行 codereview 的时候，每一个已经完成的 feature 分支提交完远端后，需要创建出一个 PR（Pull Request） 请求 merge 到目标分支（dev）

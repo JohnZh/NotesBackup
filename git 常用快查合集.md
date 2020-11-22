@@ -109,3 +109,6 @@ git rm -r --cached $folder
 
 
 
+# .gitignore 语法备忘
+
+- 单个文件：/filename
