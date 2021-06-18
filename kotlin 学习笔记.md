@@ -1405,3 +1405,9 @@ kt 所有异常都是 Throwable 的子类。包含信息，栈信息，可选原
 
 https://developer.android.com/kotlin/style-guide
 
+
+
+# kotlin KClass 和 Class
+
+Cat::class.java 和 cat.javaClass 都表示 java Class
+person.javaClass.kotlin == Person::class 都表示 KClass

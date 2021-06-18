@@ -1,4 +1,5 @@
 # dx、d8、r8 概述
+
 Android 的 VM 从最开始 Dalvik，到后面的 ART，运行的字节码文件都是 dex 文件。这意味着：
 
 1. java 文件或 kotlin 文件，以及类库，先需要 javac 或 kotlinc 变成 class 文件后（该过程是 Compile）
@@ -32,21 +33,21 @@ Android 的 VM 从最开始 Dalvik，到后面的 ART，运行的字节码文件
 # d8 desugar 的过程
 
 1. 源代码
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026040042250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
+   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026040042250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
 
 2. 第一次转变，添加了静态方法实现 lambda 表达式![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035442360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
 
 
 3. 第二次转变，创建了新的类 Java8$1 实现 Consumer 接口
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035551277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
+   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035551277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
 
 
 4. 第三次转变，Java8$1创建内部静态对象
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035631855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
+   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035631855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
 
 5. 但是实际上如果你写了一个 Java8 的内部类，它会被命名成 Java8$1，因此实际生成了下面的代码，这个新生成的类名称实际上是所有信息的 hash 值
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035659287.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
-**注意：每个 lambda 表达式会创建一个新的类**，如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035725710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
+   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035659287.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
+   **注意：每个 lambda 表达式会创建一个新的类**，如下：
+   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20201026035725710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5enhrODg4,size_16,color_FFFFFF,t_70#pic_center)
 
 > 静态方法的 lambda 表达式不会这样，比如 System.out::println(s)

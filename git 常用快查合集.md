@@ -41,6 +41,20 @@ git config core.quotepath false
 
 # git tag
 
+## 查看本地所有 tag
+
+```shell
+git tag
+```
+
+## 查看远端所有的 tag (branch & tag)
+
+```shell
+git ls-remote --tags
+```
+
+> 没有 --tags 会打印所有的 tags 和 branches
+
 ## 轻量级 tag
 
 ```shell
@@ -65,10 +79,12 @@ git checkout $tagName
 git show 1.1.1
 ```
 
-## 删除 tag
+## 删除 tag 和远端 tag
 
 ```shell
 git tag -d 1.1.1
+
+git push origin :refs/tags/releases-197
 ```
 
 ## 发布 tag
@@ -86,6 +102,26 @@ git push origin --tags （所有 tags）
 
 ```shell
 git commit --amend
+```
+
+
+
+# git log
+
+## 查看某个文件历史版本
+
+```shell
+git log /Users/john/Desktop/mcd-android/app/src/main/java/jp/co/mcdonalds/android/view/framesurfaceview/BaseSurfaceView.java
+```
+
+
+
+# git checkout
+
+## 回退文件到某个版本
+
+```shell
+git co 570fcd /Users/john/Desktop/mcd-android/app/src/main/java/jp/co/mcdonalds/android/view/framesurfaceview/BaseSurfaceView.java
 ```
 
 
@@ -109,6 +145,93 @@ git rm -r --cached $folder
 
 
 
+# git push
+
+## 删除远端分支
+
+```shell
+git push origin :$branchName
+```
+
+
+
+# git remote
+
+## 扫描远端分支删除本地缓存
+
+```shell
+get remote prune origin
+```
+
+
+
+# git revert
+
+## 反做某个 commit，会新建一个 commit（要求 path clean）
+
+```shell
+git revert -n 8b89621019c9adc6fc4d242cd41daeb13aeb9861
+..
+git commit -m 'revert'
+git push
+```
+
+
+
+# git reset
+
+## 删除历史版本（commit）回到某个 commit
+
+```shell
+git reset --hard 0d1d7fc32
+.. // 如果之前的 commit 已经 push 到远端了，再 push 需要强制 -f
+git push -f
+```
+
+## 删除最近的 commit，回到上一(N)个 commit
+
+```shell
+git reset --hard HEAD^
+git reset --hard HEAD^^ //上上个
+git reset --hard HEAD-100 //上 100 个
+```
+
+
+
+# git reflog
+
+## 回到了之前的 commit 之后又想回到放弃的 commit
+
+```shell
+git reflog // 查看所有的命令记录
+git reset --hard 0d1d7fc32 // 回到那个放弃的 commit
+```
+
+
+
+# git stash
+
+## 存储当前的修改 git stash
+
+## 查看所有的存储 git stash list
+
+## 应用储藏并将其从 stack 移除
+
+```shell
+git stash pop
+```
+
+## 从储藏中创建分支，创建成功，储藏移除
+
+```shell
+git stash branch $branchName
+```
+
+
+
 # .gitignore 语法备忘
 
 - 单个文件：/filename
+
+
+

@@ -104,6 +104,8 @@ com.google.firebase:firebase-messaging
 
 https://firebase.google.com/docs/cloud-messaging/android/client?authuser=1
 
+需要安装 Google Play services
+
 
 
 ## google 分析 
@@ -148,7 +150,7 @@ adb shell setprop log.tag.FA-SVC VERBOSE
 adb logcat -v time -s FA FA-SVC
 ```
 
-### 调试事件（debugging event）实时
+### 调试事件（debugView）实时 
 
 可以几乎实时的查看你记录的事件。
 
@@ -156,8 +158,14 @@ adb logcat -v time -s FA FA-SVC
 
 启动 debug 模式：
 
-```
+```shell
 adb shell setprop debug.firebase.analytics.app package_name
+```
+
+eg.
+
+```
+adb shell setprop debug.firebase.analytics.app jp.co.mcdonalds.android.staging
 ```
 
 这个行为会一直存在直到你显示关闭它
@@ -305,6 +313,211 @@ com.google.firebase:firebase-config
 
 https://firebase.google.com/docs/remote-config/use-config-android?authuser=1
 
+### 控制台：Remote Config
+
+https://console.firebase.google.com/u/1/project/mcd-dev-f605f/config
+
+### 例子
+
+```java
+mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+  .setMinimumFetchIntervalInSeconds(3600)
+  .build();
+mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+```
+
+### 默认参数和获取
+
+```
+mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
+// 获取的 api
+getBoolean()
+getByteArray()
+getDouble()
+getLong()
+getString()
+```
+
+### 更新和激活
+
+```java
+ fetch() // 仅获取并存储在 RemoteConfigObject
+ activate() // 使得参数可用
+
+  //获取并激活可用
+  mFirebaseRemoteConfig.fetchAndActivate()
+  .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+    @Override
+    public void onComplete(@NonNull Task<Boolean> task) {
+      if (task.isSuccessful()) {
+        boolean updated = task.getResult();
+        Log.d(TAG, "Config params updated: " + updated);
+        Toast.makeText(MainActivity.this, "Fetch and activate succeeded",
+                       Toast.LENGTH_SHORT).show();
+
+      } else {
+        Toast.makeText(MainActivity.this, "Fetch failed",
+                       Toast.LENGTH_SHORT).show();
+      }
+      displayWelcomeMessage();
+    }
+  });
+```
+
+### 节流
+
+短时间内获取多次会抛出 FirebaseRemoteConfigFetchThrottledException
+
+< 17.0.0 限制是 5 fetchs / 60min，新版限制更宽容
+
+默认的 fetch 间隔是12小时，fetch 间隔的决定遵循以下规则：
+
+- fetch(long)  方法参数
+- FirebaseRemoteConfigSettings.setMinimumFetchIntervalInSeconds(long) 方法 参数
+- 默认值 12 小时
+
+### Remote Config 模板和版本
+
+#### 模板文件
+
+```json
+  {
+    "conditions": [
+      {
+        "name": "ios",
+        "expression": "device.os == 'ios'"
+      }
+    ],
+    "parameters": {
+      "welcome_message": {
+        "defaultValue": {
+          "value": "Welcome to this sample app"
+        },
+        "conditionalValues": {
+          "ios": {
+            "value": "Welcome to this sample iOS app"
+          }
+        }
+      },
+      "welcome_message_caps": {
+        "defaultValue": {
+          "value": "false"
+        }
+      },
+      "header_text": {
+        "defaultValue": {
+          "useInAppDefault": true
+        }
+      }
+    },
+    "version": {
+      "versionNumber": "28",
+      "updateTime": "2020-05-14T18:39:38.994Z",
+      "updateUser": {
+        "email": "user@google.com"
+      },
+      "updateOrigin": "CONSOLE",
+      "updateType": "INCREMENTAL_UPDATE"
+    }
+  }
+```
+
+每次更新 parameters，都会创建一个新版本的 RC 模板并存储之前的模板为一个版本，这个版本你以后可以用于回退的需要。
+
+版本号是有序增加（从初始值开始），所有模板都会有版本字段
+
+**记住：RC 模板的生存周期是 90 天，总限制是300个版本。当前 App 使用的RC 模板不会过期。如果这个模板已经被激活超过 90 天，并且被更新的版本替换，它将无法在 retrieved（由于过期）**
+
+
+
+#### 列出所有的RC 模板版本
+
+控制台：Parameters tab，clock icon，Change history
+
+也可以用 java 代码打出来
+
+```java
+ListVersionsPage page = FirebaseRemoteConfig.getInstance().listVersionsAsync().get();
+while (page != null) {
+  for (Version version : page.getValues()) {
+    System.out.println("Version: " + version.getVersionNumber());
+  }
+  page = page.getNextPage();
+}
+
+// Iterate through all versions. This will still retrieve versions in batches.
+page = FirebaseRemoteConfig.getInstance().listVersionsAsync().get();
+for (Version version : page.iterateAll()) {
+  System.out.println("Version: " + version.getVersionNumber());
+}
+```
+
+数据结构：包含了模板元数据，更新时间，创建者，通过什么方式（console or REST API）
+
+```json
+{
+  "versions": [{
+    "version_number": "6",
+    "update_time": "2018-05-12T02:38:54Z",
+    "update_user": {
+      "email": "jane@developer.org",
+    },
+    "description": "One small change on the console",
+    "origin": "CONSOLE",
+    "update_type": "INCREMENTAL_UPDATE"
+  }]
+```
+
+#### 获取特定版本的模板
+
+```java
+Template template = FirebaseRemoteConfig.getInstance().getTemplateAtVersionAsync(versionNumber).get();
+// See the ETag of the fetched template.
+System.out.println("Successfully fetched the template with ETag: " + template.getETag());
+```
+
+控制台也可以看
+
+#### 回退模板版本 (consolo 也可以)
+
+```java
+try {
+  Template template = FirebaseRemoteConfig.getInstance().rollbackAsync(versionNumber).get();
+  System.out.println("Successfully rolled back to template version: " + versionNumber);
+  System.out.println("New ETag: " + template.getETag());
+} catch (ExecutionException e) {
+  if (e.getCause() instanceof FirebaseRemoteConfigException) {
+    FirebaseRemoteConfigException rcError = (FirebaseRemoteConfigException) e.getCause();
+    System.out.println("Error trying to rollback template.");
+    System.out.println(rcError.getMessage());
+  }
+}
+```
+
+
+
+### Remote Config 加载策略
+
+1. app 启动的时候 fetchAndActivate()，避免任何 ui 上引入注意的改变
+2. 在 loading ui 的背后激活，使用这个策略建议加个超时机制，RC 默认是 1 分钟超时（对高质量 app 的启动来说这个时间太长了）
+3. 加载新值下次使用：（这个策略等待时间是明显最少的，但是要看到变化必须启动两次 app）
+   1. 启动，激活之前fetch 的值（瞬间的）
+   2. 用户和 app 交换的同时获取新值（根据默认的 fetch 间隔）
+   3. 直到下次app 启动，激活新值
+
+
+
+### Remote Config 参数和条件（待看）
+
+https://firebase.google.com/docs/remote-config/parameters?authuser=1
+
+
+
+### RC 实时更新（待看）
+
+https://firebase.google.com/docs/remote-config/propagate-updates-realtime?authuser=1#android_2
+
 
 
 ## 用户搜索（索引 indexing）
@@ -316,4 +529,14 @@ com.google.firebase:firebase-appindexing
 https://firebase.google.com/docs/app-indexing/android/app?authuser=1
 
 
+
+# Cloud Firestore
+
+- Document Database，只存在 Documents 和 Collections，Collections 包含 Documents
+- Documents 就想是一个类似于 map 的集合，可以存储 key-value 信息
+  - value 可以是 String，Number，Json-Object/Array
+- Documents 不能包含 Documents，但是可以指向 Collections，即 Subcollection，而其又可以包含其他 Documents
+-  当获取一个 Document 的数据的时候，只是这个 Document 的数据，不包含其指向的 subcollection
+- FirebaseRoot 只能包含 Collections
+- 
 
