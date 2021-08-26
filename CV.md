@@ -10,10 +10,10 @@
 
 ## 工作经历
 
-- 2019.6 - 2020.10 / 独立开发
-	- 独立进行 app 开发工作。并独立创作发布了「[Program Timer](https://johnzh.github.io/programTimer)」中英文版
-- 2019.1 - 2019.6 / 杭州沙曼网络科技有限公司 / 技术合伙人
-	- 「遇见女神」系列 SNS App，项目经理，Android 开发
+- 2020.11 - 至今 / [theplant.jp](theplant.jp) / Android 开发
+	- 开发维护日本麦丹劳 app [McDonald's Japan](https://play.google.com/store/apps/details?id=jp.co.mcdonalds.android) 项目
+- 2019.1 - 2020.10 / 杭州沙曼网络科技有限公司 / 技术合伙人
+	- 「遇见女神」系列 SNS App，项目经理，Android 开发，独立开发发布作品「[Program Timer](https://johnzh.github.io/programTimer)」
 - 2015.5 - 2018.12 / 浙江松柏信息技术有限公司 / Android 组长 / 客户端主管
 	- 负责「财牛投资」「期货交易通」「乐米金融」「未来交易所」等项目的 App 端开发与管理
 - 2011.7-2015.4 / 杭州美源信息技术咨询有限公司（美资）/ 实习 / 软件开发

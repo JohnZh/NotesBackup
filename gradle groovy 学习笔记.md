@@ -362,3 +362,23 @@ jar {
 
 
 ## web application
+
+
+
+
+
+# gradle dependencies
+
+ref：[gradle dependency 依赖冲突原因与解决](./gradle dependency 依赖冲突原因与解决.md)
+
+- Dependency Reports:：使用 project report plugin：https://docs.gradle.org/current/userguide/project_report_plugin.html
+  - html report: **htmlDependencyReport**
+  - txt report: **dependencyReport**
+  - ....
+
+
+
+
+
+
+
