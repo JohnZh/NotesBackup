@@ -7,7 +7,10 @@
 
 > 更多详情，查阅官方英文文档：[《Hypertext Transfer Protocol Version 2》](https://httpwg.org/specs/rfc7540.html)
 
+
+
 <a id="frames" />
+
 ## 二进制·分帧·流
 - 帧：传输的最小单位，所有的控制，请求，响应，数据都会被包装成帧的，例如替代原先 HEADER 和 BODY 的 HEDAER Frame 和 DATA Frame。所有的帧都有一个 9 Bytes 的固定数据结构的头部，定义了内容长度，类型，标示，Stream-id，保留位，最后是二进制的具体传输内容 Payload
 - 流：逻辑概念，代表客户端和服务端之间数据交换期间的双向帧序列。每个帧的 Stream-id 代表这个帧属于哪个流，待接收方得到全部归属某个于 Stream-id 的帧后重新组装成完整数据
@@ -38,7 +41,10 @@
 - Stream Identifier：流标识。客户端创建的为奇数，服务端的为偶数。值（0x0）不标识流，只用于连接控制的相关帧
 - Payload：主体内容，帧类型决定
 
+
+
 <a id="type" />
+
 ### Type 帧的类型
 Type 使用了 8-bit 的空间，0xf0 ~ 0xff 保留用于实验使用，当前注册使用如下：
 
@@ -56,6 +62,7 @@ WINDOW_UPDATE|0x8|窗口更新帧：执行流量控制。可指定具体 Stream_
 CONTINUATION|0x9|延续帧：用于连续传送首部片段序列
 
 <a id="data"/>
+
 ## DATA 数据帧
 
 ```
@@ -78,7 +85,10 @@ CONTINUATION|0x9|延续帧：用于连续传送首部片段序列
 
 ![sample1](./sample1.jpg)
 
+
+
 <a id="headers"/>
+
 ## HEADERS 报头帧
 
 ```
