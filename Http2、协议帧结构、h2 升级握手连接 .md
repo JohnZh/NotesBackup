@@ -61,6 +61,8 @@ GOWAY|0x7|发起关闭连接的请求或警示严重错误。关闭前会处理�
 WINDOW_UPDATE|0x8|窗口更新帧：执行流量控制。可指定具体 Stream_Identifier 或者整个连接 Stream_Identifier(0x0)。只有数据帧受流量控制，初始化流量窗口后，发生多少 Payload，流量窗口减少多少，不足后就无法发送，使用该帧增加窗口大小
 CONTINUATION|0x9|延续帧：用于连续传送首部片段序列
 
+
+
 <a id="data"/>
 
 ## DATA 数据帧
