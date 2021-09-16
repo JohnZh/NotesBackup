@@ -76,4 +76,14 @@
 
 
 
-## 
+## 协同工作
+
+Team 和 Workspace：一个人只能加入一个 Team，但是可以创建多个 Workspace
+
+
+
+
+
+# 官方学习文档
+
+https://learning.postman.com/docs/collaborating-in-postman/manage-public-elements/
