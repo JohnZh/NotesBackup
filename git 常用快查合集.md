@@ -176,6 +176,14 @@ git commit -m 'revert'
 git push
 ```
 
+## 反做某个 merged commit，会新建 commit
+
+```shell
+git revert b27267720b2660e6127e8682b505069e1da61c8e -m 1
+```
+
+-m 1: 代表两个节点中选择第一个节点作为 revert 后的结果，一般 merge 的时候 base 会是第一个，合入的会是第二个
+
 
 
 # git reset
@@ -210,6 +218,14 @@ git reset --hard 0d1d7fc32 // 回到那个放弃的 commit
 
 
 # git stash
+
+## 查看某个 stash 里存储的内容
+
+```shell
+git stash show -p stash@{0}
+```
+
+
 
 ## 存储当前的修改 git stash
 
