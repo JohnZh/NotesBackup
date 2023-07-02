@@ -62,7 +62,10 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-5.6.4-all.zip
 ```
 下载下来全部版本的文件路径：~/.gradle/wrapper/dists/
 
-> 当 AS 无法下载或下载缓慢的情况，推荐自己去国内镜像下载，并放到该文件夹下，后缀为-all：源码+二进制可执行文件+文档，-bin：二进制可执行文件，-src：源码
+> 当 AS 无法下载或下载缓慢的情况，推荐自己去国内镜像下载，并放到该文件夹下
+> 后缀为-all：源码+二进制可执行文件+文档，
+> -bin：二进制可执行文件，
+> -src：源码
 
 <a id="closure" />
 

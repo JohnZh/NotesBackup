@@ -84,7 +84,7 @@ git show 1.1.1
 ```shell
 git tag -d 1.1.1
 
-git push origin :refs/tags/releases-197
+git push origin :refs/tags/releases-726
 ```
 
 ## 发布 tag
@@ -157,13 +157,23 @@ git push origin :$branchName
 
 # git remote
 
+## 查看远端地址
+```
+git remote -v
+```
+
 ## 扫描远端分支删除本地缓存
 
 ```shell
-get remote prune origin
+git remote prune origin
 ```
 
 
+## 添加远程 repo
+
+```shell
+git remote add origin https://git.1kmxc.com/1km-frontend/vue-active
+```
 
 # git revert
 
@@ -204,7 +214,10 @@ git reset --hard HEAD^^ //上上个
 git reset --hard HEAD-100 //上 100 个
 ```
 
-
+## 删除最近的 commit，并保留代码
+```shell
+git reset --soft HEAD^
+```
 
 # git reflog
 
