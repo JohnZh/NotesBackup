@@ -24,7 +24,9 @@
 
 ## 完整的从开发到发布的流程
 
-![流程图](gitflow.jpg)
+![流程图](./Images/gitflow.jpg)
+
+
 
 ## 要点
 

@@ -11,6 +11,7 @@ git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
+git config --global alias.cm 'commit -a -m'
 git config --global alias.unstage 'reset HEAD --' (取消暂存文件的命令)
 git config --global alias.last 'log -1 HEAD' (查看最后一次提交的信息)
 git config --global alias.visual "!gitk" 运行某个外部命令而非git附属工具，加！
@@ -122,6 +123,12 @@ git log /Users/john/Desktop/mcd-android/app/src/main/java/jp/co/mcdonalds/androi
 
 ```shell
 git co 570fcd /Users/john/Desktop/mcd-android/app/src/main/java/jp/co/mcdonalds/android/view/framesurfaceview/BaseSurfaceView.java
+```
+
+## 切到某个 commit 并创建新分支
+
+```shell
+git co 570fcd -b $branchname
 ```
 
 
