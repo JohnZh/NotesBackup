@@ -117,6 +117,14 @@ git log /Users/john/Desktop/mcd-android/app/src/main/java/jp/co/mcdonalds/androi
 
 
 
+## 查看某个文件的所有历史提交
+
+```shell
+git log --all -- app/src/main/res/layout/dialog_mds_delete_address.xml
+```
+
+
+
 # git checkout
 
 ## 回退文件到某个版本
