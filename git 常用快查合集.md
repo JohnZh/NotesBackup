@@ -190,6 +190,14 @@ git remote prune origin
 git remote add origin https://git.1kmxc.com/1km-frontend/vue-active
 ```
 
+## 修改远程 repo 
+
+```shell
+git remote set-url origin https://github.com/username/repo.git
+```
+
+
+
 # git revert
 
 ## 反做某个 commit，会新建一个 commit（要求 path clean）

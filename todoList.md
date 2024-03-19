@@ -2,17 +2,25 @@
 
 - Compose
   - https://developer.android.com/jetpack/compose/tutorial
+- 调研当前架构模式，通知是否可以封装成回调
+- 
 
 
 
 
 
 # Schedule
+春节：3
+2月4日(星期日)、2月18日(星期日)上班，在除夕(2月9日)	
+清明劳动：3
+4月7日(星期日)上班
+4月28日(星期日)、5月11日(星期六)上班。
+中秋：1
+9月14日(星期六)上班。
+国庆节：2
+9月29日(星期日)、10月12日(星期六)上班
 
-- https://docs.google.com/document/d/1QqBmOZ3U1vJhuMM3MWXyL7i4OaDl-iT_PzDzxjYQkC4/edit
-  - deadline, 8.25
-- New Cell Phone
-  - DL: 8-23
-- Two hair cures:
-  - 8-30 Wed, or 9-1
-  - 9-13 Wed
+Total：9
+
+注册公司，申请低利率经营贷款
+

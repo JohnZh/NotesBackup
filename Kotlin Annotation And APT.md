@@ -149,3 +149,161 @@ val f = @Suspendable { Fiber.sleep(10) }
 
 
 
+## 注解使用目标
+
+在 kt 的构造方法里面去注解一些 JAVA 的属性
+
+```Kotlin
+class Example(
+	@field:Ann val foo, // annotate Java field 
+	@get:Ann val bar, // annotate Java getter 
+	@param:Ann val quux) // annotate Java constructor parameter
+```
+
+
+
+注解整个文件
+
+```Kotlin
+@file:JvmName("Foo") 
+
+package org.jetbrains.demo
+```
+
+
+
+多个注解，同个目标
+
+```Kotlin
+class Example { 
+	@set:[Inject VisibleForTesting] // Inject and VisibleForTesting are annotations
+	var collaborator: Collaborator 
+}
+```
+
+
+
+### 支持目标的完整列表
+
+- file
+
+- Property 该注解的目标对 Java 是不可见的
+
+- field
+
+- get 属性的 getter
+
+- set 属性的 setter
+
+- receiver 一个扩展方法或属性的 receiver 参数
+
+  ```kotlin
+  fun @receiver:Fancy String.myExtension() { ... }
+  ```
+
+- param 构造器参数
+
+- setparam 属性 settter 的参数
+
+- delegate 存储代理属性的代理实例
+
+
+
+如果不明确制定使用目标，会根据 @Target 来选择目标，有多个适用，则按照下面顺序优先适配
+
+- param
+- property
+- field
+
+
+
+## Java 注解
+
+100 % 兼容 kotlin 注解
+
+```kotlin
+class Tests {
+    // apply @Rule annotation to property getter
+    @get:Rule val tempFolder = TemporaryFolder()
+
+    @Test fun simple() {
+        val f = tempFolder.newFile()
+        assertEquals(42, getTheAnswer())
+    }
+}
+```
+
+
+
+### Java 注解的传参
+
+```kotlin
+// Java
+public @interface Ann {
+    int intValue();
+    String stringValue();
+}
+
+// Kotlin
+@Ann(intValue = 1, stringValue = "abc") 
+class C
+
+// Java
+public @interface AnnWithValue {
+    String value();
+}
+
+// Kotlin
+@AnnWithValue("abc")
+class C
+
+// Java 数组参数
+public @interface AnnWithArrayValue {
+    String[] value();
+}
+
+// Kotlin
+@AnnWithArrayValue("abc", "foo", "bar") 
+class C
+
+// Java 数组参数带参数名称
+public @interface AnnWithArrayMethod {
+    String[] names();
+}
+
+@AnnWithArrayMethod(names = ["abc", "foo", "bar"])
+class C
+```
+
+
+
+### 访问注解实例的值
+
+```kotlin
+// Java
+public @interface Ann {
+    int value();
+}
+
+// Kotlin
+fun foo(ann: Ann) {
+    val i = ann.value
+}
+```
+
+
+
+### Android API < 26 的问题
+
+避免生成 `TYPE_USE` 和 `TYPE_PARAMETER` 注解目标，使用新的编译器参数：
+
+```shell
+-Xno-new-java-annotation-targets
+```
+
+
+
+### 可重复注解
+
+https://kotlinlang.org/docs/annotations.html#repeatable-annotations
+
