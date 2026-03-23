@@ -10,6 +10,26 @@
 
 
 
+## 补充解决一个 NavController 无法找到的问题
+
+想项目中使用了 FragmentContainerView，但是 Activity 里面无法使用 findNavController(viewId: Int) 找到 NavController 
+
+解决方案：替换 <androidx.fragment.app.FragmentContainerView> 为 <fragment> 
+
+或者使用 supportFragmentManager.findFragmentById(R.id.navHostFragment).navController
+
+```xml
+<androidx.fragment.app.FragmentContainerView
+    android:id="@+id/navHostFragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/register_navigation" />
+```
+
+
+
 # Navigation.createNavigateOnClickListener
 
 还有一个 Navigation.createNavigateOnClickListener(@IdRes destId: int, bundle: Bundle) 这个会绑定一个 onClickListener 并且导航到destination，还可以追加一个 bundle 得参数
